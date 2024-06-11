@@ -1,0 +1,15 @@
+SELECT 
+    c.name AS college_name,
+    MIN(r.ranking) AS best_ranking,
+    COUNT(s.id) AS num_students_within_top_3
+FROM 
+    colleges c
+JOIN 
+    students s ON c.id = s.collegeId
+JOIN 
+    rankings r ON s.id = r.studentId
+WHERE 
+    r.ranking BETWEEN 1 AND 3
+    AND r.year = 2015
+GROUP BY 
+    c.name;
