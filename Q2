@@ -1,0 +1,48 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class dateFormatTransformer {
+    public static List<String> transformDateFormat(List<String> dates) {
+        List<String> result = new ArrayList<>();
+
+        for (String date : dates) {
+            String transformedDate = transform(date);
+            if (transformedDate != null) {
+                result.add(transformedDate);
+            }
+        }
+
+        return result;
+    }
+
+    private static String transform(String date) {
+        String year, month, day;
+
+        if (date.matches("\\d{4}/\\d{2}/\\d{2}")) {  // YYYY/MM/DD
+            String[] parts = date.split("/");
+            year = parts[0];
+            month = parts[1];
+            day = parts[2];
+        } else if (date.matches("\\d{2}/\\d{2}/\\d{4}")) {  // DD/MM/YYYY
+            String[] parts = date.split("/");
+            day = parts[0];
+            month = parts[1];
+            year = parts[2];
+        } else if (date.matches("\\d{2}-\\d{2}-\\d{4}")) {  // MM-DD-YYYY
+            String[] parts = date.split("-");
+            month = parts[0];
+            day = parts[1];
+            year = parts[2];
+        } else {
+            return null;  // Ignore invalid formats
+        }
+
+        return year + month + day;
+    }
+
+    public static void main(String[] args) {
+        List<String> dates = List.of("2010/02/20", "19/12/2016", "11-18-2012", "20130720");
+        System.out.println(transformDateFormat(dates));  // Should return [20100220, 20161219, 20121118]
+
+    }
+}
